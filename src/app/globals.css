@@ -5,7 +5,7 @@
 .hover-underline-animation-right {
   content: '';
   position: absolute;
-  margin-top: 30px;
+  margin-top: 32px;
   width: 100%;
   transform: scaleX(0);
   height: 4px;
@@ -23,7 +23,7 @@
 .hover-underline-animation-left {
   content: '';
   position: absolute;
-  margin-top: 30px;
+  margin-top: 32px;
   width: 100%;
   transform: scaleX(0);
   height: 4px;

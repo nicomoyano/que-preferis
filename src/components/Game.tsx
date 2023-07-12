@@ -5,44 +5,7 @@ import { Database } from '@/types/Database';
 import emojiRegex from 'emoji-regex';
 import CountUp from 'react-countup';
 import { supabase } from '@/lib/supabase';
-
-const colors = [
-  ['#FFFFFF', '#000000'],
-  ['#00539C', '#EEA47F'],
-  ['#2F3C7E', '#FBEAEB'],
-  ['#101820', '#FEE715'],
-  ['#CCF381', '#4831D4'],
-  ['#F96167', '#F9E795'],
-  ['#E2D1F9', '#317773'],
-  ['#990011', '#FCF6F5'],
-  ['#8AAAE5', '#FFFFFF'],
-  ['#FF69B4', '#00FFFF'],
-  ['#FCEDDA', '#EE4E34'],
-  ['#ADD8E6', '#00008B'],
-  ['#EC449B', '#99F443'],
-  ['#8A307F', '#79A7D3'],
-  ['#CC313D', '#F7C5CC'],
-  ['#2C5F2D', '#97BC62'],
-  ['#2BAE66', '#FCF6F5'],
-  ['#FFE77A', '#2C5F2D'],
-  ['#234E70', '#FBF8BE'],
-  ['#F4B41A', '#143D59'],
-  ['#FFE042', '#E71989'],
-  ['#FFA781', '#5B0E2D'],
-  ['#00E1DB', '#5E001F'],
-  ['#030E4F', '#F49F1C'],
-  ['#A9DCE3', '#7689DE'],
-  ['#EFC8B1', '#514644'],
-  ['#5E057E', '#C299D0'],
-  ['#FFB8B1', '#993441'],
-  ['#BDFFF6', '#E23C52'],
-  ['#008970', '#99EEDF'],
-  ['#ED335F', '#761137'],
-  ['#3D4C41', '#999999'],
-  ['#64395F', '#6CACA0'],
-  ['#241F1C', '#937047'],
-  ['#1D5C96', '#7DB0DE'],
-].sort(() => 0.5 - Math.random());
+import { colors } from '@/consts/colors';
 
 type Props = {
   data: Database['public']['Tables']['questions']['Row'][];
@@ -90,7 +53,7 @@ export default function Game({ data }: Props) {
 
     setTimeout(() => {
       setIndex(index + 1);
-    }, 7000);
+    }, 5000);
   };
 
   useEffect(() => {
@@ -106,13 +69,11 @@ export default function Game({ data }: Props) {
         style={{
           background: color1,
           color: color2,
+          transition: 'background 0.5s',
         }}
       >
-        <header className="absolute left-4 top-4">
-          <h1 className="font-semibold">qué preferís?</h1>
-        </header>
         <button
-          className="w-full h-full flex flex-col p-8 lg:flex-row gap-3 items-center justify-end relative text-lg font-semibold group"
+          className="w-full h-full flex flex-col p-8 lg:flex-row gap-3 items-center justify-end relative text-lg font-semibold group text-center lg:text-right"
           onClick={async () => {
             await handleClick('1');
           }}
@@ -140,7 +101,7 @@ export default function Game({ data }: Props) {
                 color: color1,
                 width: `${percent1}%`,
                 transition: 'width',
-                transitionDuration: `${percent1 / 20}s`,
+                transitionDuration: `${percent1 / 30}s`,
                 transitionTimingFunction: 'ease-out',
               }}
             ></div>
@@ -150,12 +111,15 @@ export default function Game({ data }: Props) {
               <CountUp
                 end={percent1}
                 suffix="%"
-                duration={percent1 / 20}
+                duration={percent1 / 30}
                 easingFn={(t, b, c, d) => c * (1 - (1 - t / d) ** 3) + b}
               />
             </span>
           )}
         </button>
+        <header className="absolute left-4 top-4">
+          <h1 className="font-semibold">qué preferís?</h1>
+        </header>
       </div>
 
       <div
@@ -163,10 +127,11 @@ export default function Game({ data }: Props) {
         style={{
           background: color2,
           color: color1,
+          transition: 'background 0.5s',
         }}
       >
         <button
-          className="w-full h-full flex flex-col p-8 lg:flex-row gap-3 items-center justify-start relative text-lg font-semibold group"
+          className="w-full h-full flex flex-col p-8 lg:flex-row gap-3 items-center justify-start relative text-lg font-semibold group text-center lg:text-left"
           onClick={async () => {
             await handleClick('2');
           }}
@@ -194,7 +159,7 @@ export default function Game({ data }: Props) {
                 color: color2,
                 width: `${percent2}%`,
                 transition: 'width',
-                transitionDuration: `${percent2 / 20}s`,
+                transitionDuration: `${percent2 / 30}s`,
                 transitionTimingFunction: 'ease-out',
               }}
             ></div>
@@ -204,7 +169,7 @@ export default function Game({ data }: Props) {
               <CountUp
                 end={percent2}
                 suffix="%"
-                duration={percent2 / 20}
+                duration={percent2 / 30}
                 easingFn={(t, b, c, d) => c * (1 - (1 - t / d) ** 3) + b}
               />
             </span>
