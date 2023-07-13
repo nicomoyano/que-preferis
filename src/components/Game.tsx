@@ -86,7 +86,7 @@ export default function Game({ data }: Props) {
   }, [index]);
 
   return (
-    <main className="flex flex-col lg:flex-row h-screen h-[100dvh]">
+    <main className="flex flex-col lg:flex-row h-[100dvh]">
       <div
         className="w-full h-1/2 lg:w-1/2 lg:h-full flex flex-col lg:flex-row gap-3 items-center justify-end"
         style={{
@@ -133,7 +133,7 @@ export default function Game({ data }: Props) {
           </div>
           {total > 0 && (
             <span
-              className="absolute mb-44 lg:mt-64 text-xl lg:text-md lg:mb-0"
+              className="absolute mb-32 lg:mt-64 text-xl lg:text-md lg:mb-0"
               style={{ color: color2 }}
             >
               <CountUp
@@ -196,7 +196,7 @@ export default function Game({ data }: Props) {
           </div>
           {total > 0 && (
             <span
-              className="absolute mt-44 text-xl lg:text-md lg:mt-64"
+              className="absolute mt-32 text-xl lg:text-md lg:mt-64"
               style={{ color: color1 }}
             >
               <CountUp
