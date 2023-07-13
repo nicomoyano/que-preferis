@@ -14,6 +14,8 @@ type Props = {
 };
 
 export default function Game({ data, defaultColors }: Props) {
+  const [optionConfirmed, setOptionConfirmed] = useState<string | null>(null);
+
   const [index, setIndex] = useState(0);
   const question = data[index];
 
@@ -51,6 +53,10 @@ export default function Game({ data, defaultColors }: Props) {
   }, [index]);
 
   const handleClick = async (side: '1' | '2') => {
+    if (optionConfirmed) return;
+
+    setOptionConfirmed(side);
+
     await supabase
       .from('questions')
       .update({
@@ -81,6 +87,7 @@ export default function Game({ data, defaultColors }: Props) {
   };
 
   useEffect(() => {
+    setOptionConfirmed(null);
     setPercent1(0);
     setPercent2(0);
     setTotal(0);
@@ -97,12 +104,16 @@ export default function Game({ data, defaultColors }: Props) {
         }}
       >
         <button
-          className="w-full h-full flex flex-col px-16 py-8 lg:px-8 lg:flex-row gap-3 items-center justify-end relative lg:text-lg font-semibold group text-center lg:text-right"
+          className={`w-full h-full flex flex-col px-16 py-8 lg:px-8 lg:flex-row gap-3 items-center justify-end relative lg:text-lg font-semibold group text-center lg:text-right ${
+            optionConfirmed && 'cursor-default'
+          }`}
           onClick={async () => {
             await handleClick('1');
           }}
           style={{ color: color2 }}
-          onMouseEnter={() => setHovering1(true)}
+          onMouseEnter={() => {
+            if (!optionConfirmed) setHovering1(true);
+          }}
           onMouseLeave={() => setHovering1(false)}
         >
           <p className="text-3xl lg:text-4xl">
@@ -113,7 +124,11 @@ export default function Game({ data, defaultColors }: Props) {
             <div
               className={
                 'hover-underline-animation-left opacity-0 lg:opacity-100' +
-                (hovering1 ? ' hover-underline-animation-left-hover' : '')
+                (optionConfirmed === '1'
+                  ? ' hover-underline-animation-left-hover opacity-100'
+                  : hovering1
+                  ? ' hover-underline-animation-left-hover'
+                  : '')
               }
               style={{ background: color2 }}
             ></div>
@@ -160,12 +175,16 @@ export default function Game({ data, defaultColors }: Props) {
         }}
       >
         <button
-          className="w-full h-full flex flex-col px-16 py-8 lg:px-8 lg:flex-row gap-3 items-center justify-start relative lg:text-lg font-semibold group text-center lg:text-left"
+          className={`w-full h-full flex flex-col px-16 py-8 lg:px-8 lg:flex-row gap-3 items-center justify-start relative lg:text-lg font-semibold group text-center lg:text-left ${
+            optionConfirmed && 'cursor-default'
+          }`}
           onClick={async () => {
             await handleClick('2');
           }}
           style={{ color: color1 }}
-          onMouseEnter={() => setHovering2(true)}
+          onMouseEnter={() => {
+            if (!optionConfirmed) setHovering2(true);
+          }}
           onMouseLeave={() => setHovering2(false)}
         >
           <p className="inline-block relative">
@@ -173,7 +192,11 @@ export default function Game({ data, defaultColors }: Props) {
             <div
               className={
                 'hover-underline-animation-right opacity-0 lg:opacity-100' +
-                (hovering2 ? ' hover-underline-animation-right-hover' : '')
+                (optionConfirmed === '2'
+                  ? ' hover-underline-animation-right-hover opacity-100'
+                  : hovering2
+                  ? ' hover-underline-animation-right-hover'
+                  : '')
               }
               style={{ background: color1 }}
             ></div>
