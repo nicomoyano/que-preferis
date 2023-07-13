@@ -61,6 +61,4 @@ export const colors = [
   ['#1C1C1B', '#CE4A7E'],
   ['#96351F', '#DBB98F'],
   ['#BB000E', '#161616'],
-]
-  .sort(() => 0.5 - Math.random())
-  .map((c) => c.sort(() => 0.5 - Math.random()));
+].sort(() => 0.5 - Math.random());

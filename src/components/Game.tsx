@@ -6,6 +6,7 @@ import emojiRegex from 'emoji-regex';
 import CountUp from 'react-countup';
 import { supabase } from '@/lib/supabase';
 import { colors } from '@/consts/colors';
+import { getFartherColor } from '@/utils/getFartherColor';
 
 type Props = {
   data: Database['public']['Tables']['questions']['Row'][];
@@ -17,7 +18,8 @@ export default function Game({ data }: Props) {
 
   const regex = emojiRegex();
 
-  const [color1, color2] = colors[index % colors.length];
+  const [color1, setColor1] = useState(colors[index % colors.length][0]);
+  const [color2, setColor2] = useState(colors[index % colors.length][1]);
 
   const [hovering1, setHovering1] = useState(false);
   const [hovering2, setHovering2] = useState(false);
@@ -25,6 +27,27 @@ export default function Game({ data }: Props) {
   const [percent1, setPercent1] = useState(0);
   const [percent2, setPercent2] = useState(0);
   const [total, setTotal] = useState(0);
+
+  useEffect(() => {
+    if (index === 0) return;
+
+    const lastColors = colors[(index - 1) % colors.length];
+    const newColors = colors[index % colors.length];
+
+    const farthestColor = getFartherColor({
+      originalColor: newColors[0],
+      color1: lastColors[0],
+      color2: lastColors[1],
+    });
+
+    if (farthestColor === lastColors[0]) {
+      setColor1(newColors[0]);
+      setColor2(newColors[1]);
+    } else {
+      setColor1(newColors[1]);
+      setColor2(newColors[0]);
+    }
+  }, [index]);
 
   const handleClick = async (side: '1' | '2') => {
     await supabase
@@ -53,7 +76,7 @@ export default function Game({ data }: Props) {
 
     setTimeout(() => {
       setIndex(index + 1);
-    }, 5000);
+    }, 3500);
   };
 
   useEffect(() => {
@@ -73,7 +96,7 @@ export default function Game({ data }: Props) {
         }}
       >
         <button
-          className="w-full h-full flex flex-col p-8 lg:flex-row gap-3 items-center justify-end relative text-lg font-semibold group text-center lg:text-right"
+          className="w-full h-full flex flex-col px-16 py-8 lg:px-8 lg:flex-row gap-3 items-center justify-end relative lg:text-lg font-semibold group text-center lg:text-right"
           onClick={async () => {
             await handleClick('1');
           }}
@@ -81,19 +104,21 @@ export default function Game({ data }: Props) {
           onMouseEnter={() => setHovering1(true)}
           onMouseLeave={() => setHovering1(false)}
         >
-          <p className="text-4xl">{question.option1?.match(regex)}</p>
+          <p className="text-3xl lg:text-4xl">
+            {question.option1?.match(regex)}
+          </p>
           <p className="inline-block relative">
             <span>{question.option1?.split(regex)[0]}</span>
             <div
               className={
-                `hover-underline-animation-left` +
+                'hover-underline-animation-left opacity-0 lg:opacity-100' +
                 (hovering1 ? ' hover-underline-animation-left-hover' : '')
               }
               style={{ background: color2 }}
             ></div>
           </p>
 
-          <div className="w-full h-10 absolute mt-32 right-0 flex items-center justify-end">
+          <div className="w-full h-10 absolute mt-32 right-0 flex items-center justify-end opacity-0 lg:opacity-100">
             <div
               className="h-10 flex items-center justify-end"
               style={{
@@ -101,17 +126,20 @@ export default function Game({ data }: Props) {
                 color: color1,
                 width: `${percent1}%`,
                 transition: 'width',
-                transitionDuration: `${percent1 / 30}s`,
+                transitionDuration: `${percent1 / 50}s`,
                 transitionTimingFunction: 'ease-out',
               }}
             ></div>
           </div>
           {total > 0 && (
-            <span className="absolute mt-64" style={{ color: color2 }}>
+            <span
+              className="absolute mb-44 lg:mt-64 text-xl lg:text-md lg:mb-0"
+              style={{ color: color2 }}
+            >
               <CountUp
                 end={percent1}
                 suffix="%"
-                duration={percent1 / 30}
+                duration={percent1 / 50}
                 easingFn={(t, b, c, d) => c * (1 - (1 - t / d) ** 3) + b}
               />
             </span>
@@ -131,7 +159,7 @@ export default function Game({ data }: Props) {
         }}
       >
         <button
-          className="w-full h-full flex flex-col p-8 lg:flex-row gap-3 items-center justify-start relative text-lg font-semibold group text-center lg:text-left"
+          className="w-full h-full flex flex-col px-16 py-8 lg:px-8 lg:flex-row gap-3 items-center justify-start relative lg:text-lg font-semibold group text-center lg:text-left"
           onClick={async () => {
             await handleClick('2');
           }}
@@ -143,15 +171,17 @@ export default function Game({ data }: Props) {
             <span>{question.option2?.split(regex)[0]}</span>
             <div
               className={
-                `hover-underline-animation-right` +
+                'hover-underline-animation-right opacity-0 lg:opacity-100' +
                 (hovering2 ? ' hover-underline-animation-right-hover' : '')
               }
               style={{ background: color1 }}
             ></div>
           </p>
-          <p className="text-4xl">{question.option2?.match(regex)}</p>
+          <p className="text-3xl lg:text-4xl">
+            {question.option2?.match(regex)}
+          </p>
 
-          <div className="w-full h-10 absolute mt-32 left-0 flex items-center justify-start">
+          <div className="w-full h-10 absolute mt-32 left-0 flex items-center justify-start opacity-0 lg:opacity-100">
             <div
               className="h-10 flex items-center justify-start"
               style={{
@@ -159,17 +189,20 @@ export default function Game({ data }: Props) {
                 color: color2,
                 width: `${percent2}%`,
                 transition: 'width',
-                transitionDuration: `${percent2 / 30}s`,
+                transitionDuration: `${percent2 / 50}s`,
                 transitionTimingFunction: 'ease-out',
               }}
             ></div>
           </div>
           {total > 0 && (
-            <span className="absolute mt-64" style={{ color: color1 }}>
+            <span
+              className="absolute mt-44 text-xl lg:text-md lg:mt-64"
+              style={{ color: color1 }}
+            >
               <CountUp
                 end={percent2}
                 suffix="%"
-                duration={percent2 / 30}
+                duration={percent2 / 50}
                 easingFn={(t, b, c, d) => c * (1 - (1 - t / d) ** 3) + b}
               />
             </span>
