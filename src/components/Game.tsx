@@ -57,13 +57,17 @@ export default function Game({ data, defaultColors }: Props) {
 
     setOptionConfirmed(side);
 
-    await supabase
+    const { error: errorUpdating } = await supabase
       .from('questions')
       .update({
         [`votes${side}`]: question[`votes${side}`]! + 1,
-        ['total']: question['total']! + 1,
       })
       .eq('id', question.id);
+
+    if (errorUpdating) {
+      console.error("Couldn't update votes.");
+      return;
+    }
 
     const { data, error } = await supabase
       .from('questions')
