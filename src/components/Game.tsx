@@ -86,7 +86,7 @@ export default function Game({ data }: Props) {
   }, [index]);
 
   return (
-    <main className="flex flex-col lg:flex-row h-screen">
+    <main className="flex flex-col lg:flex-row h-screen h-[100dvh]">
       <div
         className="w-full h-1/2 lg:w-1/2 lg:h-full flex flex-col lg:flex-row gap-3 items-center justify-end"
         style={{
