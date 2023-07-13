@@ -10,16 +10,17 @@ import { getFartherColor } from '@/utils/getFartherColor';
 
 type Props = {
   data: Database['public']['Tables']['questions']['Row'][];
+  defaultColors: string[];
 };
 
-export default function Game({ data }: Props) {
-  const [index, setIndex] = React.useState(0);
+export default function Game({ data, defaultColors }: Props) {
+  const [index, setIndex] = useState(0);
   const question = data[index];
 
   const regex = emojiRegex();
 
-  const [color1, setColor1] = useState(colors[index % colors.length][0]);
-  const [color2, setColor2] = useState(colors[index % colors.length][1]);
+  const [color1, setColor1] = useState(defaultColors[0]);
+  const [color2, setColor2] = useState(defaultColors[1]);
 
   const [hovering1, setHovering1] = useState(false);
   const [hovering2, setHovering2] = useState(false);
@@ -88,7 +89,7 @@ export default function Game({ data }: Props) {
   return (
     <main className="flex flex-col lg:flex-row h-[100dvh]">
       <div
-        className="w-full h-1/2 lg:w-1/2 lg:h-full flex flex-col lg:flex-row gap-3 items-center justify-end"
+        className={`w-full h-1/2 lg:w-${percent1}% lg:h-full flex flex-col lg:flex-row gap-3 items-center justify-end transition-all`}
         style={{
           background: color1,
           color: color2,
@@ -151,7 +152,7 @@ export default function Game({ data }: Props) {
       </div>
 
       <div
-        className="w-full h-1/2 lg:w-1/2 lg:h-full flex flex-col lg:flex-row gap-3 items-center justify-start"
+        className={`w-full h-1/2 lg:w-${percent1}% lg:h-full flex flex-col lg:flex-row gap-3 items-center justify-start  transition-all`}
         style={{
           background: color2,
           color: color1,
