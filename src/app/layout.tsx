@@ -9,7 +9,7 @@ const inter = Poppins({
 
 export const metadata: Metadata = {
   title: 'qué preferís?',
-  description: 'qué preferís? es un juego de preguntas y respuestas',
+  description: 'qué preferís? es un juego de preguntas',
 };
 
 export default function RootLayout({
