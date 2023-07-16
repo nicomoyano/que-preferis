@@ -108,7 +108,7 @@ export default function Game({ data, defaultColors }: Props) {
         }}
       >
         <button
-          className={`w-full h-full flex flex-col px-16 py-8 lg:px-8 lg:flex-row gap-3 items-center justify-end relative lg:text-lg font-semibold group text-center lg:text-right ${
+          className={`w-full h-full flex flex-col p-8 lg:flex-row gap-3 items-center justify-end relative lg:text-lg font-semibold group text-center lg:text-right ${
             optionConfirmed && 'cursor-default'
           }`}
           onClick={async () => {
@@ -153,7 +153,7 @@ export default function Game({ data, defaultColors }: Props) {
           </div>
           {total > 0 && (
             <span
-              className="absolute mb-32 lg:mt-64 text-xl lg:text-md lg:mb-0"
+              className="absolute mb-48 lg:mt-64 text-xl lg:text-md lg:mb-0"
               style={{ color: color2 }}
             >
               <CountUp
@@ -179,7 +179,7 @@ export default function Game({ data, defaultColors }: Props) {
         }}
       >
         <button
-          className={`w-full h-full flex flex-col px-16 py-8 lg:px-8 lg:flex-row gap-3 items-center justify-start relative lg:text-lg font-semibold group text-center lg:text-left ${
+          className={`w-full h-full flex flex-col p-8 lg:flex-row gap-3 items-center justify-start relative lg:text-lg font-semibold group text-center lg:text-left ${
             optionConfirmed && 'cursor-default'
           }`}
           onClick={async () => {
@@ -224,7 +224,7 @@ export default function Game({ data, defaultColors }: Props) {
           </div>
           {total > 0 && (
             <span
-              className="absolute mt-32 text-xl lg:text-md lg:mt-64"
+              className="absolute mt-48 text-xl lg:text-md lg:mt-64"
               style={{ color: color1 }}
             >
               <CountUp
