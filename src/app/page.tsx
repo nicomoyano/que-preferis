@@ -7,7 +7,7 @@ export const revalidate = 0;
 
 export default async function Home() {
   const { data } = await supabase.from('questions').select();
-  const defaultColors = colors[0];
+  const shuffledColors = shuffle(colors);
 
-  return data && <Game data={shuffle(data)} defaultColors={defaultColors} />;
+  return data && <Game data={shuffle(data)} colors={shuffledColors} />;
 }

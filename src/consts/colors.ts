@@ -1,6 +1,4 @@
-import { shuffle } from '@/utils/shuffle';
-
-export const colors = shuffle([
+export const colors = [
   ['#FFFFFF', '#000000'],
   ['#00539C', '#EEA47F'],
   ['#2F3C7E', '#FBEAEB'],
@@ -63,4 +61,4 @@ export const colors = shuffle([
   ['#1C1C1B', '#CE4A7E'],
   ['#96351F', '#DBB98F'],
   ['#BB000E', '#161616'],
-]);
+];

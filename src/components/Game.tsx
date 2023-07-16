@@ -5,15 +5,15 @@ import { Database } from '@/types/Database';
 import emojiRegex from 'emoji-regex';
 import CountUp from 'react-countup';
 import { supabase } from '@/lib/supabase';
-import { colors } from '@/consts/colors';
+// import { colors } from '@/consts/colors';
 import { getFartherColor } from '@/utils/getFartherColor';
 
 type Props = {
   data: Database['public']['Tables']['questions']['Row'][];
-  defaultColors: string[];
+  colors: string[][];
 };
 
-export default function Game({ data, defaultColors }: Props) {
+export default function Game({ data, colors }: Props) {
   const [optionConfirmed, setOptionConfirmed] = useState<string | null>(null);
 
   const [index, setIndex] = useState(0);
@@ -21,8 +21,8 @@ export default function Game({ data, defaultColors }: Props) {
 
   const regex = emojiRegex();
 
-  const [color1, setColor1] = useState(defaultColors[0]);
-  const [color2, setColor2] = useState(defaultColors[1]);
+  const [color1, setColor1] = useState(colors[0][0]);
+  const [color2, setColor2] = useState(colors[0][1]);
 
   const [hovering1, setHovering1] = useState(false);
   const [hovering2, setHovering2] = useState(false);
@@ -50,7 +50,7 @@ export default function Game({ data, defaultColors }: Props) {
       setColor1(newColors[1]);
       setColor2(newColors[0]);
     }
-  }, [index]);
+  }, [index, colors]);
 
   const handleClick = async (side: '1' | '2') => {
     if (optionConfirmed) return;
